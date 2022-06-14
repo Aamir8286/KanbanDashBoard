@@ -1,0 +1,347 @@
+<mat-drawer-container style="height:100%">
+    <mat-drawer #sideNav mode="side" class="sideNav" style="z-index:1000" [position]="'end'">
+        <app-sidebar (isCloseEvent)="closeSidebar($event)"></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content>
+        <section class="dashboard-container" style="z-index:-10">
+
+            <div class="board-header">
+                <div class="board-header-left">
+                    <h1>Kanban Board</h1>
+                    <div class="board-header-btn-wrapper">
+                        <div class="board-header-btns">
+                            <span class="board-header-btn-divider"></span>
+                        </div>
+                        <a href="#" class="public">
+                            <span class="material-icons">
+                                public
+                            </span>
+                            <span class="public-text">Public</span>
+                        </a>
+
+
+                    </div>
+                    <span class="board-header-btn-divider"></span>
+                    <div class="board-header-btn-wrapper">
+                        <div class="board-header-btns">
+                            <span class="board-header-btn-divider"></span>
+                        </div>
+                        <a class="user-name-initials">
+                            <span href="#">AH</span>
+                        </a>
+
+
+                    </div>
+                    <div class="buttons">
+                        <div class="addtask" (click)="addCardClick()">
+                            <button mat-raised-button color="primary">Add Card</button>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="board-header-right">
+                    <span class="board-header-btn-divider"></span>
+                    <a href="#" class="filter">
+                        <span class="material-icons">
+                            filter_list
+                        </span>
+                        <span class="filter-text">
+                            Filter
+                        </span>
+                    </a>
+                    <a href="#" class="show-menu" (click)="sideNav.toggle()">
+                        <span class="material-icons">
+                            more_horiz
+                        </span>
+                        <span class="show-menu-text">
+                            Show menu
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="example-container">
+                <h2>To do</h2>
+
+                <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
+                    [cdkDropListConnectedTo]="[developmentList,testingList,doneList]" class="example-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="card-box" *ngFor="let item of todo" cdkDrag>
+                        <div class="card-header" *ngIf="item.taskLabel">
+                            <div class="card-label">
+                                <span class="card-text">
+                                    {{item.taskLabel}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-title" *ngIf="item.taskName">
+                            <span>
+                                {{item.taskName}}
+                            </span>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="taskComment" *ngIf="item.taskComment">
+                                <span class="material-symbols-outlined">
+                                    comment
+                                </span>
+                                <span>
+                                    {{item.taskComment.length}}
+                                </span>
+                            </div>
+                            <div class="taskCheckList" *ngIf="item.taskCheckList">
+                                <span class="material-symbols-outlined">
+                                    task
+                                </span>
+                                <span>
+                                    {{item.taskCheckList}}
+                                </span>
+                            </div>
+                            <div class="taskVotes" *ngIf="item.taskVotes">
+                                <span class="material-symbols-outlined">
+                                    thumb_up
+                                </span>
+                                <span>
+                                    {{item.taskVotes}}
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-container">
+                <h2>Development</h2>
+
+                <div cdkDropList #developmentList="cdkDropList" [cdkDropListData]="development"
+                    [cdkDropListConnectedTo]="[todoList,testingList,doneList]" class="example-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="card-box" *ngFor="let item of development" cdkDrag>
+                        <div class="card-header" *ngIf="item.taskLabel">
+                            <div class="card-label">
+                                <span class="card-text">
+                                    {{item.taskLabel}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-title" *ngIf="item.taskName">
+                            <span>
+                                {{item.taskName}}
+                            </span>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="taskComment" *ngIf="item.taskComment">
+                                <span class="material-symbols-outlined">
+                                    comment
+                                </span>
+                                <span>
+                                    {{item.taskComment.length}}
+                                </span>
+                            </div>
+                            <div class="taskCheckList" *ngIf="item && item['taskCheckList']">
+                                <span class="material-symbols-outlined">
+                                    task
+                                </span>
+                                <span>
+                                    {{item.taskCheckList}}
+                                </span>
+                            </div>
+                            <div class="taskVotes" *ngIf="item.taskVotes">
+                                <span class="material-symbols-outlined">
+                                    thumb_up
+                                </span>
+                                <span>
+                                    {{item.taskVotes}}
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-container">
+                <h2>Testing</h2>
+
+                <div cdkDropList #testingList="cdkDropList" [cdkDropListData]="testing"
+                    [cdkDropListConnectedTo]="[todoList,developmentList,doneList]" class="example-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="card-box" *ngFor="let item of testing" cdkDrag>
+                        <div class="card-header" *ngIf="item.taskLabel">
+                            <div class="card-label">
+                                <span class="card-text">
+                                    {{item.taskLabel}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-title" *ngIf="item.taskName">
+                            <span>
+                                {{item.taskName}}
+                            </span>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="taskComment" *ngIf="item.taskComment">
+                                <span class="material-symbols-outlined">
+                                    comment
+                                </span>
+                                <span>
+                                    {{item.taskComment.length}}
+                                </span>
+                            </div>
+                            <div class="taskCheckList" *ngIf="item && item['taskCheckList']">
+                                <span class="material-symbols-outlined">
+                                    task
+                                </span>
+                                <span>
+                                    {{item.taskCheckList}}
+                                </span>
+                            </div>
+                            <div class="taskVotes" *ngIf="item.taskVotes">
+                                <span class="material-symbols-outlined">
+                                    thumb_up
+                                </span>
+                                <span>
+                                    {{item.taskVotes}}
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-container">
+                <h2>Done</h2>
+
+                <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done"
+                    [cdkDropListConnectedTo]="[todoList,testingList,developmentList]" class="example-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="card-box" *ngFor="let item of done" cdkDrag>
+                        <div class="card-header" *ngIf="item.taskLabel">
+                            <div class="card-label">
+                                <span class="card-text">
+                                    {{item.taskLabel}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-title" *ngIf="item.taskName">
+                            <span>
+                                {{item.taskName}}
+                            </span>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="taskComment" *ngIf="item.taskComment">
+                                <span class="material-symbols-outlined">
+                                    comment
+                                </span>
+                                <span>
+                                    {{item.taskComment.length}}
+                                </span>
+                            </div>
+                            <div class="taskCheckList" *ngIf="item && item['taskCheckList']">
+                                <span class="material-symbols-outlined">
+                                    task
+                                </span>
+                                <span>
+                                    {{item.taskCheckList}}
+                                </span>
+                            </div>
+                            <div class="taskVotes" *ngIf="item.taskVotes">
+                                <span class="material-symbols-outlined">
+                                    thumb_up
+                                </span>
+                                <span>
+                                    {{item.taskVotes}}
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modale" [ngClass]="addCardClicked ? 'opened':'close'">
+                <div class="modal-dialog">
+                    <div class="modal-header">
+                        <h2>Add Card</h2>
+                        <span class="material-symbols-outlined" (click)="OnCloseButtonClick()">
+                            close
+                        </span>
+                    </div>
+                    <form [formGroup]="addCardForm" (ngSubmit)="onAddingCard()">
+                        <!-- Email -->
+                        <div>
+                            <label [ngClass]="{'error': submitted && myForm['taskName'].errors}">Task Name</label>
+                            <div>
+                                <input type="email" class="form-control" formControlName="taskName"
+                                    [ngClass]="{'error': submitted && myForm['taskName'].errors}">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback"
+                                    *ngIf="submitted && myForm['taskName'].errors?.['required']">
+                                    <sup>*</sup>Please enter your taskName
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label [ngClass]="{'error': submitted && myForm['taskLabel'].errors}">Task Label</label>
+                            <div>
+                                <input type="email" class="form-control" formControlName="taskLabel"
+                                    [ngClass]="{'error': submitted && myForm['taskLabel'].errors}">
+
+                                <!-- error block -->
+                                <div class="invalid-feedback"
+                                    *ngIf="submitted && myForm['taskLabel'].errors?.['required']">
+                                    <sup>*</sup>Please enter your task label
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <label [ngClass]="{'error': submitted && myForm['taskStage'].errors}">Task Label</label>
+                            <div>
+                                <select class="custom-select d-block w-100" (change)="changeStage($event)"
+                                    formControlName="taskStage"
+                                    [ngClass]="{'error': submitted &&  myForm['taskStage'].errors}">
+                                    <option value="">Choose...</option>
+                                    <option *ngFor="let taskStage of taskStages" [ngValue]="taskStage.value">
+                                        {{taskStage.key}}
+                                    </option>
+                                </select>
+
+                                <!-- error block -->
+                                <div class="invalid-feedback"
+                                    *ngIf="submitted && myForm['taskStage'].errors?.['required']">
+                                    <sup>*</sup>Please select the task Stage
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <label [ngClass]="{'error': submitted && myForm['taskComment'].errors}">Task Comment</label>
+                            <textarea name="" id="" cols="30" rows="5" formControlName="taskComment"
+                                placeholder="Task Comment"></textarea>
+
+
+                        </div>
+                        <br>
+                        <br>
+                        <div class="button">
+                            <button mat-raised-button color="primary">Add Card</button>
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </section>
+    </mat-drawer-content>
+</mat-drawer-container>
